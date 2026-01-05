@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="aa677705-7829-40c1-afc0-5ca7a02f750e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/io/github/marrafon91/dscatalog/DscatalogApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/resources/application.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/test/java/io/github/marrafon91/dscatalog/DscatalogApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/angular.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/src/app/app.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/src/app/app.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/src/app/app.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/src/app/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/src/app/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/src/app/app.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/src/app/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/src/app/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/src/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../Estudos-Angular/crud-angular-material/src/styles.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Java-eclipse" beforeDir="false" afterPath="$PROJECT_DIR$/../Java-eclipse" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Spring-Boot" beforeDir="false" afterPath="$PROJECT_DIR$/../Spring-Boot" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="37qg6io7Uf67JeOSdxT0nEXlJ3r" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="aa677705-7829-40c1-afc0-5ca7a02f750e" name="Changes" comment="" />
+      <created>1767635842182</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1767635842182</updated>
+    </task>
+    <servers />
+  </component>
+</project>
