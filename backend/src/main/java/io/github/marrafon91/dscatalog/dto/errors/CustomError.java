@@ -10,14 +10,13 @@ public class CustomError {
     private Instant timestamp;
     private Integer status;
     private String error;
-    private String message; // Campo message nao e obrigatorio muita informacao.
     private String path;
 
-    public CustomError(Instant timestamp, Integer status, String error, String message, String path) {
+    public CustomError(Instant timestamp, Integer status, String error, String path) {
         this.timestamp = timestamp;
         this.status = status;
         this.error = error;
-        this.message = message;
+
         this.path = path;
     }
 
@@ -31,10 +30,6 @@ public class CustomError {
 
     public String getError() {
         return error;
-    }
-
-    public String getMessage() {
-        return message;
     }
 
     public String getPath() {

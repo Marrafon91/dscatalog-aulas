@@ -45,4 +45,9 @@ public class CategoryController implements GenericController {
         CategoryDTO result = service.update(id, dto);
         return ResponseEntity.ok(result);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> update(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
