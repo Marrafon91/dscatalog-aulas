@@ -1,5 +1,6 @@
 package io.github.marrafon91.dscatalog.services;
 
+import io.github.marrafon91.dscatalog.controllers.mappers.CategoryMapper;
 import io.github.marrafon91.dscatalog.dto.CategoryDTO;
 import io.github.marrafon91.dscatalog.entities.Category;
 import io.github.marrafon91.dscatalog.repositories.CategoryRepository;
@@ -16,16 +17,27 @@ public class CategoryService {
     @Autowired
     private CategoryRepository repository;
 
+    @Autowired
+    private CategoryMapper mapper;
+
     @Transactional(readOnly = true)
     public CategoryDTO findById(Long id) {
-        Category category = repository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Category not found"));
-        return new CategoryDTO(category);
+        Category entity = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Category not found. Id: " + id));
+        return new CategoryDTO(entity);
     }
 
     @Transactional(readOnly = true)
     public List<CategoryDTO> findAll() {
         List<Category> list = repository.findAll();
         return list.stream().map(CategoryDTO::new).toList();
+    }
+
+    @Transactional
+    public CategoryDTO insert(CategoryDTO dto) {
+        Category entity = mapper.toEntity(dto);
+        entity = repository.save(entity);
+        return mapper.toDTO(entity);
     }
 }

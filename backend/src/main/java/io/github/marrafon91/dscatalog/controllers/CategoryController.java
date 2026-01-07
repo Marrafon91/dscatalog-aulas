@@ -1,19 +1,24 @@
 package io.github.marrafon91.dscatalog.controllers;
 
+import io.github.marrafon91.dscatalog.controllers.mappers.CategoryMapper;
 import io.github.marrafon91.dscatalog.dto.CategoryDTO;
+import io.github.marrafon91.dscatalog.entities.Category;
 import io.github.marrafon91.dscatalog.services.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
 @RequestMapping("/categories")
-public class CategoryController {
+public class CategoryController implements GenericController {
 
     @Autowired
-    CategoryService service;
+    private CategoryService service;
+
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDTO> findById(@PathVariable("id") Long id) {
@@ -25,5 +30,12 @@ public class CategoryController {
     public ResponseEntity<List<CategoryDTO>> findAll() {
         List<CategoryDTO> result = service.findAll();
         return ResponseEntity.ok().body(result);
+    }
+
+    @PostMapping
+    public ResponseEntity<CategoryDTO> insert(@Valid @RequestBody CategoryDTO dto) {
+        CategoryDTO entity = service.insert(dto);
+        URI location = headerLocation(entity.id());
+        return ResponseEntity.created(location).body(entity);
     }
 }

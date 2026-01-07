@@ -1,4 +1,4 @@
-package io.github.marrafon91.dscatalog.dto;
+package io.github.marrafon91.dscatalog.dto.errors;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -10,12 +10,14 @@ public class CustomError {
     private Instant timestamp;
     private Integer status;
     private String error;
+    private String message; // Campo message nao e obrigatorio muita informacao.
     private String path;
 
-    public CustomError(Instant timestamp, Integer status, String error, String path) {
+    public CustomError(Instant timestamp, Integer status, String error, String message, String path) {
         this.timestamp = timestamp;
         this.status = status;
         this.error = error;
+        this.message = message;
         this.path = path;
     }
 
@@ -29,6 +31,10 @@ public class CustomError {
 
     public String getError() {
         return error;
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public String getPath() {

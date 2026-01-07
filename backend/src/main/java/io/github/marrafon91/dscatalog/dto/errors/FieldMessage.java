@@ -1,4 +1,4 @@
-package io.github.marrafon91.dscatalog.dto;
+package io.github.marrafon91.dscatalog.dto.errors;
 
 public class FieldMessage {
 
