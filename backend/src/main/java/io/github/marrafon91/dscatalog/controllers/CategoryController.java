@@ -1,6 +1,6 @@
 package io.github.marrafon91.dscatalog.controllers;
 
-import io.github.marrafon91.dscatalog.entities.Category;
+import io.github.marrafon91.dscatalog.dto.CategoryDTO;
 import io.github.marrafon91.dscatalog.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +18,8 @@ public class CategoryController {
     CategoryService service;
 
     @GetMapping
-    public ResponseEntity<List<Category>> findAll() {
-        List<Category> result = service.findAll();
+    public ResponseEntity<List<CategoryDTO>> findAll() {
+        List<CategoryDTO> result = service.findAll();
         return ResponseEntity.ok().body(result);
     }
 }
