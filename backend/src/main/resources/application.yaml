@@ -1,3 +1,47 @@
 spring:
   application:
     name: dscatalog
+
+  profiles:
+    active: test
+
+  output:
+    ansi:
+      enabled: ALWAYS
+
+logging:
+  pattern:
+    console: >
+      %clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint}
+      %clr(%-5p)
+      %clr([%t]){cyan}
+      %clr(%-50.50logger{0}){blue}
+      %clr(:){yellow}
+      %m
+
+---
+
+# TEST (profile "test")
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  h2:
+    console:
+      enabled: true
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
