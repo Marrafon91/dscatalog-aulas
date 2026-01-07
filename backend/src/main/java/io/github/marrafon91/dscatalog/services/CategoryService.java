@@ -5,6 +5,7 @@ import io.github.marrafon91.dscatalog.dto.CategoryDTO;
 import io.github.marrafon91.dscatalog.entities.Category;
 import io.github.marrafon91.dscatalog.repositories.CategoryRepository;
 import io.github.marrafon91.dscatalog.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,4 +41,18 @@ public class CategoryService {
         entity = repository.save(entity);
         return mapper.toDTO(entity);
     }
+
+    @Transactional
+    public CategoryDTO update(Long id, CategoryDTO dto) {
+        try {
+            Category entity = repository.getReferenceById(id);
+            mapper.updateEntityFromDTO(dto, entity);
+            entity = repository.save(entity);
+            return mapper.toDTO(entity);
+        }
+        catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Category not found. Id: " + id);
+        }
+    }
+
 }

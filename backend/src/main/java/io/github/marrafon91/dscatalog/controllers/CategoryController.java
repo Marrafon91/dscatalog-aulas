@@ -34,8 +34,15 @@ public class CategoryController implements GenericController {
 
     @PostMapping
     public ResponseEntity<CategoryDTO> insert(@Valid @RequestBody CategoryDTO dto) {
-        CategoryDTO entity = service.insert(dto);
-        URI location = headerLocation(entity.id());
-        return ResponseEntity.created(location).body(entity);
+        CategoryDTO result = service.insert(dto);
+        URI uri = headerLocation(dto.id());
+        return ResponseEntity.created(uri).body(result);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryDTO> update(@PathVariable Long id,
+                                              @Valid @RequestBody CategoryDTO dto) {
+        CategoryDTO result = service.update(id, dto);
+        return ResponseEntity.ok(result);
     }
 }
