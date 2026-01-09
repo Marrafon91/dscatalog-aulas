@@ -3,7 +3,7 @@ package io.github.marrafon91.dscatalog.entities;
 import jakarta.persistence.*;
 
 import java.time.Instant;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_category")
@@ -19,6 +19,9 @@ public class Category {
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant updatedAt;
+
+    @ManyToMany(mappedBy = "categories")
+    private Set<Product> products = new HashSet<>();
 
     public Category() {
     }
@@ -60,6 +63,10 @@ public class Category {
     @PreUpdate
     public void preUpdate() {
         updatedAt = Instant.now();
+    }
+
+    public Set<Product> getProducts() {
+        return products;
     }
 
     @Override
