@@ -1,8 +1,6 @@
 package io.github.marrafon91.dscatalog.controllers;
 
-import io.github.marrafon91.dscatalog.controllers.mappers.CategoryMapper;
 import io.github.marrafon91.dscatalog.dto.CategoryDTO;
-import io.github.marrafon91.dscatalog.entities.Category;
 import io.github.marrafon91.dscatalog.services.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
