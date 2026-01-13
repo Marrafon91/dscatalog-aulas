@@ -4,11 +4,12 @@ import io.github.marrafon91.testsJunit.factory.AccountFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AccountTest {
 
     @Test
-    public void depositShouldIncreaseBalanceWhenPositiveAmount() {
+    void depositShouldIncreaseBalanceWhenPositiveAmount() {
         double amount = 200.0;
         double expectedValue = 196.0;
         Account acc = AccountFactory.createEmptyAccount();
@@ -28,5 +29,18 @@ public class AccountTest {
         acc.deposit(amount);
 
         assertEquals(expectedValue, acc.getBalance());
+    }
+
+    @Test
+    void fullWithdrawShouldClearBalanceAndReturnFullBalance() {
+
+        double expectedValue = 0.0;
+        double initialBalance = 800.0;
+        Account acc =  AccountFactory.createAccount(initialBalance);
+
+        double result = acc.fullWhithdraw();
+
+        assertTrue(expectedValue == acc.getBalance());
+        assertTrue(result == initialBalance);
     }
 }
