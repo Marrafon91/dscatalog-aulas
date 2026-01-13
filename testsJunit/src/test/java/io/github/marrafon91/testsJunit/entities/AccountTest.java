@@ -1,5 +1,6 @@
 package io.github.marrafon91.testsJunit.entities;
 
+import io.github.marrafon91.testsJunit.factory.AccountFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +11,7 @@ public class AccountTest {
     public void depositShouldIncreaseBalanceWhenPositiveAmount() {
         double amount = 200.0;
         double expectedValue = 196.0;
-        Account acc = new Account(1L, 0.0);
+        Account acc = AccountFactory.createEmptyAccount();
 
         acc.deposit(amount);
 
@@ -21,12 +22,11 @@ public class AccountTest {
     void depositShouldDoNothingWhenNegativeAmount() {
 
         double expectedValue = 100.0;
-        Account acc = new Account(1L, expectedValue);
+        Account acc = AccountFactory.createAccount(expectedValue);
         double amount = -200.0;
 
         acc.deposit(amount);
 
         assertEquals(expectedValue, acc.getBalance());
-
     }
 }
