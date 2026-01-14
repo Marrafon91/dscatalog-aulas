@@ -6,9 +6,6 @@ public class Financing {
     private Double income;
     private Integer months;
 
-    public Financing() {
-    }
-
     public Financing(Double totalAmount, Double income, Integer months) {
         validateFinancing(totalAmount, income, months);
         this.totalAmount = totalAmount;
@@ -52,6 +49,14 @@ public class Financing {
     }
 
     private  void validateFinancing(Double totalAmount, Double income, Integer months) {
+        if (totalAmount == null || income == null || months == null) {
+            throw new IllegalArgumentException("Dados não podem ser nulos");
+        }
+
+        if (totalAmount <= 0 || income <= 0 || months <= 0) {
+            throw new IllegalArgumentException("Valores devem ser positivos");
+        }
+
         if (totalAmount * 0.8 / months > income / 2.0) {
             throw new IllegalArgumentException("A parcela não pode ser maior que a metade da renda");
         }
