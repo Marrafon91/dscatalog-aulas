@@ -9,6 +9,7 @@ public class AccountTest {
 
     @Test
     void depositShouldIncreaseBalanceWhenPositiveAmount() {
+        
         double amount = 200.0;
         double expectedValue = 196.0;
         Account acc = AccountFactory.createEmptyAccount();
