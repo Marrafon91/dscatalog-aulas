@@ -58,5 +58,21 @@ public class FinancingTest {
             assertEquals(1500.0, financing.getIncome());
         });
     }
+
+    @Test
+    void setMonthsShouldUpdateWhenValid() {
+        Financing financing = new Financing(100000.0,2000.0,80);
+        financing.setMonths(100);
+        assertEquals(100, financing.getMonths());
+    }
+
+    @Test
+    void setMonthsShouldThrowIllegalArgumentExceptionWhenInvalid() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Financing financing = new Financing(100000.0,2000.0,80);
+            financing.setMonths(70);
+            assertEquals(70, financing.getMonths());
+        });
+    }
 }
 
