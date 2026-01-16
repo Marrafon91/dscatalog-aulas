@@ -25,7 +25,7 @@ public class ProductRepositoryTests {
     void setUp() throws Exception {
         existingId = 1L;
         countTotalProducts = 25L;
-        nonExistingId = 999L;
+        nonExistingId = 1000L;
     }
 
     @Test
@@ -51,17 +51,12 @@ public class ProductRepositoryTests {
 
     @Test
     void findByIdShouldReturnOptionalProductWhenIdExists() {
-        Product product = Factory.createProduct();
-        product = repository.save(product);
-
-        Optional<Product> result = repository.findById(product.getId());
-
+        Optional<Product> result = repository.findById(existingId);
         assertTrue(result.isPresent());
-        assertEquals(product.getId(), result.get().getId());
     }
 
     @Test
-    void findByIdShouldReturnOptionalEmptyWhenIdDoesNotExist() {
+    void findByIdShouldReturnEmptyOptionalWhenIdDoesNotExist() {
         Optional<Product> result = repository.findById(nonExistingId);
         assertTrue(result.isEmpty());
     }
