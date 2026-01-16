@@ -46,4 +46,15 @@ public class ProductRepositoryTests {
         assertNotNull(product.getId());
         assertEquals(countTotalProducts + 1, product.getId());
     }
+
+    @Test
+    void findByIdShouldReturnOptionalProductWhenIdExists() {
+        Product product = Factory.createProduct();
+        product = repository.save(product);
+
+        Optional<Product> result = repository.findById(product.getId());
+
+        assertTrue(result.isPresent());
+        assertEquals(product.getId(), result.get().getId());
+    }
 }
