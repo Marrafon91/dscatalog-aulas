@@ -1,9 +1,11 @@
 package io.github.marrafon91.dscatalog.dto;
 
+import io.github.marrafon91.dscatalog.entities.Category;
 import io.github.marrafon91.dscatalog.entities.Product;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public record ProductDTO(
@@ -33,5 +35,10 @@ public record ProductDTO(
                         .map(CategoryDTO::new)
                         .collect(Collectors.toList())
         );
+    }
+
+    public ProductDTO(Product entity, Set<Category> categories) {
+        this(entity);
+        categories.forEach(category -> this.categories.add(new CategoryDTO(category)));
     }
 }
