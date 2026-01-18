@@ -40,6 +40,8 @@ public class ProductServiceTests {
     void deleteShouldDoNothingWhenIdExist() {
         assertDoesNotThrow(() -> service.delete(existingId)
         );
+
+        verify(repository, times(1)).deleteById(existingId);
     }
 
     @Test
