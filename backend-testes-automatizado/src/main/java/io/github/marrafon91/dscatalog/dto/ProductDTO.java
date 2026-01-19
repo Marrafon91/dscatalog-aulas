@@ -6,7 +6,6 @@ import io.github.marrafon91.dscatalog.entities.Product;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public record ProductDTO(
         Long id,
@@ -17,11 +16,15 @@ public record ProductDTO(
         Instant date,
         List<CategoryDTO> categories
 ) {
-    // Construtor canônico compacto
+
+    // Construtor canônico: garante imutabilidade defensiva
     public ProductDTO {
-        categories = categories == null ? List.of() : List.copyOf(categories);
+        categories = categories == null
+                ? List.of()
+                : List.copyOf(categories);
     }
 
+    // Construtor a partir da entidade Product
     public ProductDTO(Product entity) {
         this(
                 entity.getId(),
@@ -33,12 +36,23 @@ public record ProductDTO(
                 entity.getCategories()
                         .stream()
                         .map(CategoryDTO::new)
-                        .collect(Collectors.toList())
+                        .toList()
         );
     }
 
+    // Construtor alternativo usando Set<Category>
     public ProductDTO(Product entity, Set<Category> categories) {
-        this(entity);
-        categories.forEach(category -> this.categories.add(new CategoryDTO(category)));
+        this(
+                entity.getId(),
+                entity.getName(),
+                entity.getDescription(),
+                entity.getPrice(),
+                entity.getImgUrl(),
+                entity.getDate(),
+                categories
+                        .stream()
+                        .map(CategoryDTO::new)
+                        .toList()
+        );
     }
 }

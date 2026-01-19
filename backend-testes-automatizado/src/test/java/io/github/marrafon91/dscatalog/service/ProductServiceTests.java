@@ -62,7 +62,6 @@ public class ProductServiceTests {
         when(repository.getReferenceById(nonExistingId)).thenThrow(EntityNotFoundException.class);
         when(repository.save(any(Product.class))).thenReturn(product);
 
-
         doNothing().when(repository).deleteById(existingId);
         doThrow(DataIntegrityViolationException.class).when(repository).deleteById(dependentId);
 
@@ -73,7 +72,6 @@ public class ProductServiceTests {
 
     @Test
     void updateShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
-
         ProductDTO dto = new ProductDTO(Factory.createProduct());
 
         assertThrows(ResourceNotFoundException.class,
@@ -151,5 +149,4 @@ public class ProductServiceTests {
                 () -> service.delete(nonExistingId)
         );
     }
-
 }
