@@ -3,12 +3,12 @@ package io.github.marrafon91.dscatalog.service;
 import io.github.marrafon91.dscatalog.controllers.mappers.ProductMapper;
 import io.github.marrafon91.dscatalog.dto.ProductDTO;
 import io.github.marrafon91.dscatalog.entities.Product;
-import io.github.marrafon91.dscatalog.repositories.CategoryRepository;
 import io.github.marrafon91.dscatalog.repositories.ProductRepository;
 import io.github.marrafon91.dscatalog.services.ProductService;
 import io.github.marrafon91.dscatalog.services.exceptions.DatabaseException;
 import io.github.marrafon91.dscatalog.services.exceptions.ResourceNotFoundException;
 import io.github.marrafon91.dscatalog.tests.Factory;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,6 +59,7 @@ public class ProductServiceTests {
         when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
 
         when(repository.getReferenceById(existingId)).thenReturn(product);
+        when(repository.getReferenceById(nonExistingId)).thenThrow(EntityNotFoundException.class);
         when(repository.save(any(Product.class))).thenReturn(product);
 
 
@@ -68,6 +69,18 @@ public class ProductServiceTests {
         when(repository.existsById(existingId)).thenReturn(true);
         when(repository.existsById(nonExistingId)).thenReturn(false);
         when(repository.existsById(dependentId)).thenReturn(true);
+    }
+
+    @Test
+    void updateShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
+
+        ProductDTO dto = new ProductDTO(Factory.createProduct());
+
+        assertThrows(ResourceNotFoundException.class,
+                () -> service.update(nonExistingId, dto));
+
+        verify(repository, times(1)).getReferenceById(nonExistingId);
+        verify(repository, never()).save(any());
     }
 
     @Test
