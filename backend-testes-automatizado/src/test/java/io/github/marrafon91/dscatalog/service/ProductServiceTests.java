@@ -1,16 +1,24 @@
 package io.github.marrafon91.dscatalog.service;
 
+import io.github.marrafon91.dscatalog.entities.Product;
 import io.github.marrafon91.dscatalog.repositories.ProductRepository;
 import io.github.marrafon91.dscatalog.services.ProductService;
 import io.github.marrafon91.dscatalog.services.exceptions.DatabaseException;
 import io.github.marrafon91.dscatalog.services.exceptions.ResourceNotFoundException;
+import io.github.marrafon91.dscatalog.tests.Factory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -34,6 +42,13 @@ public class ProductServiceTests {
         existingId = 1L;
         nonExistingId = 1000L;
         dependentId = 3L;
+        Product product = Factory.createProduct();
+        PageImpl<Product> page = new PageImpl<>(List.of(product));
+
+        when(repository.findAll((Pageable) ArgumentMatchers.any())).thenReturn(page);
+        when(repository.save(ArgumentMatchers.any())).thenReturn(product);
+        when(repository.findById(existingId)).thenReturn(Optional.of(product));
+        when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
 
         doNothing().when(repository).deleteById(existingId);
         doThrow(DataIntegrityViolationException.class).when(repository).deleteById(dependentId);
@@ -42,6 +57,7 @@ public class ProductServiceTests {
         when(repository.existsById(nonExistingId)).thenReturn(false);
         when(repository.existsById(dependentId)).thenReturn(true);
     }
+
 
     @Test
     void deleteShouldThrowDatabaseExceptionWhenDependentId() {
