@@ -1,5 +1,6 @@
 package io.github.marrafon91.dscatalog.service;
 
+import io.github.marrafon91.dscatalog.controllers.mappers.ProductMapper;
 import io.github.marrafon91.dscatalog.dto.ProductDTO;
 import io.github.marrafon91.dscatalog.entities.Product;
 import io.github.marrafon91.dscatalog.repositories.CategoryRepository;
@@ -37,7 +38,7 @@ public class ProductServiceTests {
     private ProductRepository repository;
 
     @Mock
-    private CategoryRepository categoryRepository;
+    private ProductMapper mapper;
 
     private long existingId;
     private long nonExistingId;
@@ -57,12 +58,36 @@ public class ProductServiceTests {
         when(repository.findById(existingId)).thenReturn(Optional.of(product));
         when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
 
+        when(repository.getReferenceById(existingId)).thenReturn(product);
+        when(repository.save(any(Product.class))).thenReturn(product);
+
+
         doNothing().when(repository).deleteById(existingId);
         doThrow(DataIntegrityViolationException.class).when(repository).deleteById(dependentId);
 
         when(repository.existsById(existingId)).thenReturn(true);
         when(repository.existsById(nonExistingId)).thenReturn(false);
         when(repository.existsById(dependentId)).thenReturn(true);
+    }
+
+    @Test
+    void updateShouldReturnProductDTOWhenIdExists() {
+        Product product = Factory.createProduct();
+        product.setId(existingId);
+
+        ProductDTO dto = new ProductDTO(product);
+
+        when(mapper.toDTO(product)).thenReturn(dto);
+
+        ProductDTO result = service.update(existingId, dto);
+
+        assertNotNull(result);
+        assertEquals(existingId, result.id());
+
+        verify(repository, times(1)).getReferenceById(existingId);
+        verify(repository, times(1)).save(any(Product.class));
+        verify(mapper, times(1)).updateEntityFromDTO(dto, product);
+        verify(mapper, times(1)).toDTO(product);
     }
 
     @Test
