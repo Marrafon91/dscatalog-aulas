@@ -1,8 +1,11 @@
 package io.github.marrafon91.dscatalog.services;
 
 import io.github.marrafon91.dscatalog.controllers.mappers.ProductMapper;
+import io.github.marrafon91.dscatalog.dto.CategoryDTO;
 import io.github.marrafon91.dscatalog.dto.ProductDTO;
+import io.github.marrafon91.dscatalog.entities.Category;
 import io.github.marrafon91.dscatalog.entities.Product;
+import io.github.marrafon91.dscatalog.repositories.CategoryRepository;
 import io.github.marrafon91.dscatalog.repositories.ProductRepository;
 import io.github.marrafon91.dscatalog.services.exceptions.DatabaseException;
 import io.github.marrafon91.dscatalog.services.exceptions.ResourceNotFoundException;
@@ -23,6 +26,9 @@ public class ProductService {
 
     @Autowired
     private ProductMapper mapper;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
@@ -71,4 +77,13 @@ public class ProductService {
             throw new DatabaseException("Referential integrity violation");
         }
     }
+
+//    public void copyCategories(ProductDTO dto, Product entity) {
+//        entity.getCategories().clear();
+//
+//        for (CategoryDTO catDTO : dto.categories()) {
+//            Category category = categoryRepository.getReferenceById(catDTO.id());
+//            entity.getCategories().add(category);
+//        }
+//    }
 }

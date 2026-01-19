@@ -2,6 +2,7 @@ package io.github.marrafon91.dscatalog.service;
 
 import io.github.marrafon91.dscatalog.dto.ProductDTO;
 import io.github.marrafon91.dscatalog.entities.Product;
+import io.github.marrafon91.dscatalog.repositories.CategoryRepository;
 import io.github.marrafon91.dscatalog.repositories.ProductRepository;
 import io.github.marrafon91.dscatalog.services.ProductService;
 import io.github.marrafon91.dscatalog.services.exceptions.DatabaseException;
@@ -35,6 +36,9 @@ public class ProductServiceTests {
     @Mock
     private ProductRepository repository;
 
+    @Mock
+    private CategoryRepository categoryRepository;
+
     private long existingId;
     private long nonExistingId;
     private long dependentId;
@@ -49,6 +53,7 @@ public class ProductServiceTests {
 
         when(repository.findAll((Pageable) ArgumentMatchers.any())).thenReturn(page);
         when(repository.save(ArgumentMatchers.any())).thenReturn(product);
+
         when(repository.findById(existingId)).thenReturn(Optional.of(product));
         when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
 
@@ -58,6 +63,16 @@ public class ProductServiceTests {
         when(repository.existsById(existingId)).thenReturn(true);
         when(repository.existsById(nonExistingId)).thenReturn(false);
         when(repository.existsById(dependentId)).thenReturn(true);
+    }
+
+    @Test
+    void findByIdShouldReturnProductDTOWhenIdExists() {
+        ProductDTO productDTO = service.findById(existingId);
+
+        assertNotNull(productDTO);
+        assertEquals(existingId, productDTO.id());
+
+        verify(repository, times(1)).findById(existingId);
     }
 
     @Test
