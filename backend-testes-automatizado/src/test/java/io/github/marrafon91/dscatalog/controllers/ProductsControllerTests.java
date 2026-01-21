@@ -8,10 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -34,12 +35,16 @@ public class ProductsControllerTests {
     @BeforeEach
     void setUp() {
         productDTO = Factory.createProductDTO();
-        page = new PageImpl<>(new ArrayList<>(List.of(productDTO)));
+        page = new PageImpl<>(List.of(productDTO));
         when(service.findAllPaged(any())).thenReturn(page);
     }
 
     @Test
     void findAllShouldReturnPage() throws Exception {
-     mockMvc.perform(get("/products")).andExpect(status().isOk());
+     ResultActions result =
+             mockMvc.perform(get("/products")
+                     .accept(MediaType.APPLICATION_JSON));
+
+             result.andExpect(status().isOk());
     }
 }
