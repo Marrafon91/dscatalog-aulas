@@ -3,6 +3,7 @@ package io.github.marrafon91.dscatalog.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.marrafon91.dscatalog.dto.ProductDTO;
 import io.github.marrafon91.dscatalog.services.ProductService;
+import io.github.marrafon91.dscatalog.services.exceptions.DatabaseException;
 import io.github.marrafon91.dscatalog.services.exceptions.ResourceNotFoundException;
 import io.github.marrafon91.dscatalog.tests.Factory;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -41,6 +42,7 @@ public class ProductsControllerTests {
     private PageImpl<ProductDTO> page;
     private long existingId;
     private long nonExistingId;
+    private long dependentId;
 
     @BeforeEach
     void setUp() {
@@ -48,6 +50,7 @@ public class ProductsControllerTests {
         page = new PageImpl<>(List.of(productDTO));
         existingId = 1L;
         nonExistingId = 2L;
+        dependentId = 3L;
 
         when(service.findAllPaged(any())).thenReturn(page);
 
@@ -56,6 +59,10 @@ public class ProductsControllerTests {
 
         when(service.update(eq(existingId), any())).thenReturn(productDTO);
         when(service.update(eq(nonExistingId), any())).thenThrow(ResourceNotFoundException.class);
+
+        doNothing().when(service).delete(existingId);
+        doThrow(ResourceNotFoundException.class).when(service).delete(nonExistingId);
+        doThrow(DatabaseException.class).when(service).delete(dependentId);
     }
 
     @Test
