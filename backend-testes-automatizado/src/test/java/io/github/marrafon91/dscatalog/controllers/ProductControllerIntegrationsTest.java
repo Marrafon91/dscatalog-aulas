@@ -34,9 +34,6 @@ public class ProductControllerIntegrationsTest {
     private long countTotalProducts;
     private ProductDTO productDTO;
 
-    public ProductControllerIntegrationsTest() throws Exception {
-    }
-
     @BeforeEach
     void setUp() {
         existingId = 1L;
