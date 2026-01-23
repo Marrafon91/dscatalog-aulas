@@ -6,7 +6,7 @@ import com.devsuperior.bds02.repositories.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -18,9 +18,17 @@ public class CityService {
     @Autowired
     CityRepository repository;
 
-   @Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public List<CityDTO> findAll() {
         List<City> list = repository.findAll(by("name"));
-       return list.stream().map(CityDTO::new).toList();
+        return list.stream().map(CityDTO::new).toList();
+    }
+
+    @Transactional
+    public CityDTO insert(@RequestBody CityDTO dto) {
+        City entity = new City();
+        entity.setName(dto.getName());
+        repository.save(entity);
+        return new CityDTO(entity);
     }
 }
