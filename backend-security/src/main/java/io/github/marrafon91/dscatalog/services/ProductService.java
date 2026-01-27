@@ -1,6 +1,6 @@
 package io.github.marrafon91.dscatalog.services;
 
-import io.github.marrafon91.dscatalog.controllers.mappers.ProductMapper;
+import io.github.marrafon91.dscatalog.mappers.ProductMapper;
 import io.github.marrafon91.dscatalog.dto.ProductDTO;
 import io.github.marrafon91.dscatalog.entities.Product;
 import io.github.marrafon91.dscatalog.repositories.ProductRepository;

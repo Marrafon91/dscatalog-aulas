@@ -1,9 +1,9 @@
 package io.github.marrafon91.dscatalog.services;
 
-import io.github.marrafon91.dscatalog.mappers.CategoryMapper;
-import io.github.marrafon91.dscatalog.dto.CategoryDTO;
-import io.github.marrafon91.dscatalog.entities.Category;
-import io.github.marrafon91.dscatalog.repositories.CategoryRepository;
+import io.github.marrafon91.dscatalog.dto.UserDTO;
+import io.github.marrafon91.dscatalog.entities.User;
+import io.github.marrafon91.dscatalog.mappers.UserMapper;
+import io.github.marrafon91.dscatalog.repositories.UserRepository;
 import io.github.marrafon91.dscatalog.services.exceptions.DatabaseException;
 import io.github.marrafon91.dscatalog.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,45 +16,45 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class CategoryService {
+public class UserService {
 
     @Autowired
-    private CategoryRepository repository;
+    private UserRepository repository;
 
     @Autowired
-    private CategoryMapper mapper;
+    private UserMapper mapper;
 
     @Transactional(readOnly = true)
-    public CategoryDTO findById(Long id) {
-        Category entity = repository.findById(id)
+    public UserDTO findById(Long id) {
+        User entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Category not found. Id: " + id));
-        return new CategoryDTO(entity);
+                        "User not found. Id: " + id));
+        return new UserDTO(entity);
     }
 
     @Transactional(readOnly = true)
-    public Page<CategoryDTO> findAllPaged(Pageable pageable) {
-        Page<Category> result = repository.findAll(pageable);
-        return result.map(CategoryDTO::new);
+    public Page<UserDTO> findAllPaged(Pageable pageable) {
+        Page<User> result = repository.findAll(pageable);
+        return result.map(UserDTO::new);
     }
 
     @Transactional
-    public CategoryDTO insert(CategoryDTO dto) {
-        Category entity = mapper.toEntity(dto);
+    public UserDTO insert(UserDTO dto) {
+        User entity = mapper.toEntity(dto);
         entity = repository.save(entity);
         return mapper.toDTO(entity);
     }
 
     @Transactional
-    public CategoryDTO update(Long id, CategoryDTO dto) {
+    public UserDTO update(Long id, UserDTO dto) {
         try {
-            Category entity = repository.getReferenceById(id);
+            User entity = repository.getReferenceById(id);
             mapper.updateEntityFromDTO(dto, entity);
             entity = repository.save(entity);
             return mapper.toDTO(entity);
         }
         catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Category not found. Id: " + id);
+            throw new ResourceNotFoundException("User not found. Id: " + id);
         }
 
     }
@@ -62,7 +62,7 @@ public class CategoryService {
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id) {
         if (!repository.existsById(id)) {
-            throw new ResourceNotFoundException("Category not found. Id: " + id);
+            throw new ResourceNotFoundException("User not found. Id: " + id);
         }
         try {
            repository.deleteById(id);
@@ -70,7 +70,5 @@ public class CategoryService {
         catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Referential integrity violation");
         }
-
     }
-
 }

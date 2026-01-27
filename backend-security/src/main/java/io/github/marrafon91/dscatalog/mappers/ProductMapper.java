@@ -1,4 +1,4 @@
-package io.github.marrafon91.dscatalog.controllers.mappers;
+package io.github.marrafon91.dscatalog.mappers;
 
 import io.github.marrafon91.dscatalog.dto.ProductDTO;
 import io.github.marrafon91.dscatalog.entities.Product;
@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = CategoryMapper.class)
 public interface ProductMapper {
 
     @Mapping(target = "id", ignore = true)
