@@ -34,7 +34,7 @@ public class ProductController implements GenericController {
     @PostMapping
     public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto) {
         ProductDTO result = service.insert(dto);
-        URI uri = headerLocation(dto.id());
+        URI uri = headerLocation(dto.getId());
         return ResponseEntity.created(uri).body(result);
     }
 

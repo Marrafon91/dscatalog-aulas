@@ -1,8 +1,11 @@
 package io.github.marrafon91.dscatalog.services;
 
+import io.github.marrafon91.dscatalog.dto.CategoryDTO;
+import io.github.marrafon91.dscatalog.entities.Category;
 import io.github.marrafon91.dscatalog.mappers.ProductMapper;
 import io.github.marrafon91.dscatalog.dto.ProductDTO;
 import io.github.marrafon91.dscatalog.entities.Product;
+import io.github.marrafon91.dscatalog.repositories.CategoryRepository;
 import io.github.marrafon91.dscatalog.repositories.ProductRepository;
 import io.github.marrafon91.dscatalog.services.exceptions.DatabaseException;
 import io.github.marrafon91.dscatalog.services.exceptions.ResourceNotFoundException;
@@ -24,12 +27,15 @@ public class ProductService {
     @Autowired
     private ProductMapper mapper;
 
+    @Autowired
+    CategoryRepository categoryRepository;
+
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
         Product entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Product not found. Id: " + id));
-        return new ProductDTO(entity);
+        return new ProductDTO(entity, entity.getCategories());
     }
 
     @Transactional(readOnly = true)
@@ -41,6 +47,13 @@ public class ProductService {
     @Transactional
     public ProductDTO insert(ProductDTO dto) {
         Product entity = mapper.toEntity(dto);
+
+        for (CategoryDTO catDTO : dto.getCategories()) {
+            Category category =
+                    categoryRepository.getReferenceById(catDTO.getId());
+            entity.getCategories().add(category);
+        }
+
         entity = repository.save(entity);
         return mapper.toDTO(entity);
     }
@@ -52,8 +65,7 @@ public class ProductService {
             mapper.updateEntityFromDTO(dto, entity);
             entity = repository.save(entity);
             return mapper.toDTO(entity);
-        }
-        catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Product not found. Id: " + id);
         }
 
@@ -65,9 +77,8 @@ public class ProductService {
             throw new ResourceNotFoundException("Product not found. Id: " + id);
         }
         try {
-           repository.deleteById(id);
-        }
-        catch (DataIntegrityViolationException e) {
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Referential integrity violation");
         }
     }

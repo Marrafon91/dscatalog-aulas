@@ -1,8 +1,12 @@
 package io.github.marrafon91.dscatalog.services;
 
+import io.github.marrafon91.dscatalog.dto.RoleDTO;
 import io.github.marrafon91.dscatalog.dto.UserDTO;
+import io.github.marrafon91.dscatalog.dto.UserInsertDTO;
+import io.github.marrafon91.dscatalog.entities.Role;
 import io.github.marrafon91.dscatalog.entities.User;
 import io.github.marrafon91.dscatalog.mappers.UserMapper;
+import io.github.marrafon91.dscatalog.repositories.RoleRepository;
 import io.github.marrafon91.dscatalog.repositories.UserRepository;
 import io.github.marrafon91.dscatalog.services.exceptions.DatabaseException;
 import io.github.marrafon91.dscatalog.services.exceptions.ResourceNotFoundException;
@@ -11,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +28,12 @@ public class UserService {
 
     @Autowired
     private UserMapper mapper;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public UserDTO findById(Long id) {
@@ -39,8 +50,16 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO insert(UserDTO dto) {
+    public UserDTO insert(UserInsertDTO dto) {
         User entity = mapper.toEntity(dto);
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+        entity.getRoles().clear();
+        for (RoleDTO roleDto : dto.getRoles()) {
+            Role role = roleRepository.getReferenceById(roleDto.getId());
+            entity.getRoles().add(role);
+        }
+
         entity = repository.save(entity);
         return mapper.toDTO(entity);
     }
@@ -52,8 +71,7 @@ public class UserService {
             mapper.updateEntityFromDTO(dto, entity);
             entity = repository.save(entity);
             return mapper.toDTO(entity);
-        }
-        catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("User not found. Id: " + id);
         }
 
@@ -65,9 +83,8 @@ public class UserService {
             throw new ResourceNotFoundException("User not found. Id: " + id);
         }
         try {
-           repository.deleteById(id);
-        }
-        catch (DataIntegrityViolationException e) {
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Referential integrity violation");
         }
     }
