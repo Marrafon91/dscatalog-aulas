@@ -11,7 +11,7 @@
     <groupId>io.github.marrafon91</groupId>
     <artifactId>dscatalog</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>dscatalog</name>
+    <name>dscatalogSecurity</name>
     <description>aulas</description>
 
     <properties>

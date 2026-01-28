@@ -16,7 +16,6 @@ public class CustomError {
         this.timestamp = timestamp;
         this.status = status;
         this.error = error;
-
         this.path = path;
     }
 

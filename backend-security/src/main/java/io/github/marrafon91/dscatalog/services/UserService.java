@@ -35,6 +35,7 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+
     @Transactional(readOnly = true)
     public UserDTO findById(Long id) {
         User entity = repository.findById(id)
