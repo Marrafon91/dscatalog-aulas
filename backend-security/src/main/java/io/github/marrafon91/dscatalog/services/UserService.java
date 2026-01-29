@@ -3,6 +3,7 @@ package io.github.marrafon91.dscatalog.services;
 import io.github.marrafon91.dscatalog.dto.RoleDTO;
 import io.github.marrafon91.dscatalog.dto.UserDTO;
 import io.github.marrafon91.dscatalog.dto.UserInsertDTO;
+import io.github.marrafon91.dscatalog.dto.UserUpdateDTO;
 import io.github.marrafon91.dscatalog.entities.Role;
 import io.github.marrafon91.dscatalog.entities.User;
 import io.github.marrafon91.dscatalog.mappers.UserMapper;
@@ -66,7 +67,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO update(Long id, UserDTO dto) {
+    public UserDTO update(Long id, UserUpdateDTO dto) {
         try {
             User entity = repository.getReferenceById(id);
             mapper.updateEntityFromDTO(dto, entity);

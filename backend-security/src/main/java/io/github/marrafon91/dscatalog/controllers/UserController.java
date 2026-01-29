@@ -2,6 +2,7 @@ package io.github.marrafon91.dscatalog.controllers;
 
 import io.github.marrafon91.dscatalog.dto.UserDTO;
 import io.github.marrafon91.dscatalog.dto.UserInsertDTO;
+import io.github.marrafon91.dscatalog.dto.UserUpdateDTO;
 import io.github.marrafon91.dscatalog.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class UserController implements GenericController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> update(@PathVariable Long id,
-                                              @Valid @RequestBody UserDTO dto) {
+                                          @Valid @RequestBody UserUpdateDTO dto) {
         UserDTO result = service.update(id, dto);
         return ResponseEntity.ok(result);
     }
