@@ -52,7 +52,7 @@ public class ProductDTO {
         imgUrl = entity.getImgUrl();
         date = entity.getDate();
 
-        entity.getCategories().forEach(category -> categories.add(new CategoryDTO(category)));
+        entity.getCategories().forEach(cat -> categories.add(new CategoryDTO(cat)));
     }
 
     public ProductDTO(Product entity, Set<Category> categories) {

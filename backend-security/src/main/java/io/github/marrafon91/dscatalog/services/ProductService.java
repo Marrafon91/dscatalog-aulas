@@ -46,29 +46,50 @@ public class ProductService {
 
     @Transactional
     public ProductDTO insert(ProductDTO dto) {
-        Product entity = mapper.toEntity(dto);
 
+        Product entity = new Product();
+
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setPrice(dto.getPrice());
+        entity.setImgUrl(dto.getImgUrl());
+        entity.setDate(dto.getDate());
+
+        entity.getCategories().clear();
         for (CategoryDTO catDTO : dto.getCategories()) {
-            Category category =
-                    categoryRepository.getReferenceById(catDTO.getId());
+            Category category = categoryRepository.getReferenceById(catDTO.getId());
             entity.getCategories().add(category);
         }
 
         entity = repository.save(entity);
-        return mapper.toDTO(entity);
+        return new ProductDTO(entity);
     }
+
 
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto) {
+
         try {
             Product entity = repository.getReferenceById(id);
-            mapper.updateEntityFromDTO(dto, entity);
+
+            entity.setName(dto.getName());
+            entity.setDescription(dto.getDescription());
+            entity.setPrice(dto.getPrice());
+            entity.setImgUrl(dto.getImgUrl());
+            entity.setDate(dto.getDate());
+
+            entity.getCategories().clear();
+            for (CategoryDTO catDTO : dto.getCategories()) {
+                Category category = categoryRepository.getReferenceById(catDTO.getId());
+                entity.getCategories().add(category);
+            }
+
             entity = repository.save(entity);
-            return mapper.toDTO(entity);
+            return new ProductDTO(entity);
+
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Product not found. Id: " + id);
         }
-
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
