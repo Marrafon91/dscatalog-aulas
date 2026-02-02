@@ -92,9 +92,18 @@ public class UserService implements UserDetailsService {
     public UserDTO update(Long id, UserUpdateDTO dto) {
         try {
             User entity = repository.getReferenceById(id);
+
             mapper.updateEntityFromDTO(dto, entity);
+
+            entity.getRoles().clear();
+            for (RoleDTO roleDTO : dto.getRoles()) {
+                Role role = roleRepository.getReferenceById(roleDTO.getId());
+                entity.getRoles().add(role);
+            }
+
             entity = repository.save(entity);
             return mapper.toDTO(entity);
+
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("User not found. Id: " + id);
         }
