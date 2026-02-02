@@ -53,3 +53,7 @@ security:
     duration: ${SECURITY_JWT_DURATION}
     cors:
       origins: ${CORS_ORIGINS}
+
+# INTELLIJ VARIAVEIS DE AMBIENTE ABAIXO.
+
+# CORS_ORIGINS=http://localhost:3000,http://localhost:5173;SECURITY_CLIENT_ID=myclientid;SECURITY_CLIENT_SECRET=myclientsecret;SECURITY_JWT_DURATION=86400

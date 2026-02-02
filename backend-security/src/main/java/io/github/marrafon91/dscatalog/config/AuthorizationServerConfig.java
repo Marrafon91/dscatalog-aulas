@@ -67,25 +67,51 @@ public class AuthorizationServerConfig {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @Bean
     @Order(2)
-    public SecurityFilterChain asSecurityFilterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
 
-        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
+                new OAuth2AuthorizationServerConfigurer();
 
-        http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-                .tokenEndpoint(tokenEndpoint -> tokenEndpoint
-                        .accessTokenRequestConverter(new CustomPasswordAuthenticationConverter())
-                        .authenticationProvider(new CustomPasswordAuthenticationProvider(authrizationService(),tokenGenerator(), userDetailsService, passwordEncoder)));
+        http
+                // Aplica apenas aos endpoints do Authorization Server
+                .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
 
-        http.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
+                // Authorization Server
+                .with(authorizationServerConfigurer, authorizationServer ->
+                        authorizationServer
+                                .tokenEndpoint(tokenEndpoint -> tokenEndpoint
+                                        .accessTokenRequestConverter(
+                                                new CustomPasswordAuthenticationConverter()
+                                        )
+                                        .authenticationProvider(
+                                                new CustomPasswordAuthenticationProvider(
+                                                        authorizationService(),
+                                                        tokenGenerator(),
+                                                        userDetailsService,
+                                                        passwordEncoder
+                                                )
+                                        )
+                                )
+                )
+
+                // Exige autenticação para todos os endpoints do AS
+                .authorizeHttpRequests(authorize ->
+                        authorize.anyRequest().authenticated()
+                )
+
+                // Resource Server para validar JWT emitido
+                .oauth2ResourceServer(resourceServer ->
+                        resourceServer.jwt(Customizer.withDefaults())
+                );
 
         return http.build();
-
     }
 
+
     @Bean
-    public OAuth2AuthorizationService authrizationService() {
+    public OAuth2AuthorizationService authorizationService() {
         return new InMemoryOAuth2AuthorizationService();
     }
 
