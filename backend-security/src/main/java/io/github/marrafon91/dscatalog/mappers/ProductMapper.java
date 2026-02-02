@@ -10,12 +10,10 @@ import org.mapstruct.MappingTarget;
 public interface ProductMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "categories", ignore = true)
     Product toEntity(ProductDTO dto);
 
     ProductDTO toDTO(Product entity);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "categories", ignore = true)
     void updateEntityFromDTO(ProductDTO dto, @MappingTarget Product entity);
 }
