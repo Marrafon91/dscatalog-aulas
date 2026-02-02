@@ -7,6 +7,7 @@ import io.github.marrafon91.dscatalog.dto.ProductDTO;
 import io.github.marrafon91.dscatalog.entities.Product;
 import io.github.marrafon91.dscatalog.repositories.CategoryRepository;
 import io.github.marrafon91.dscatalog.repositories.ProductRepository;
+import io.github.marrafon91.dscatalog.services.copy.copyDtoToEntity;
 import io.github.marrafon91.dscatalog.services.exceptions.DatabaseException;
 import io.github.marrafon91.dscatalog.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,7 +20,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class ProductService {
+public class ProductService implements copyDtoToEntity {
 
     @Autowired
     private ProductRepository repository;
@@ -46,15 +47,8 @@ public class ProductService {
 
     @Transactional
     public ProductDTO insert(ProductDTO dto) {
-
         Product entity = new Product();
-
-        entity.setName(dto.getName());
-        entity.setDescription(dto.getDescription());
-        entity.setPrice(dto.getPrice());
-        entity.setImgUrl(dto.getImgUrl());
-        entity.setDate(dto.getDate());
-
+        copy(dto, entity);
         entity.getCategories().clear();
         for (CategoryDTO catDTO : dto.getCategories()) {
             Category category = categoryRepository.getReferenceById(catDTO.getId());
@@ -68,15 +62,9 @@ public class ProductService {
 
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto) {
-
         try {
             Product entity = repository.getReferenceById(id);
-
-            entity.setName(dto.getName());
-            entity.setDescription(dto.getDescription());
-            entity.setPrice(dto.getPrice());
-            entity.setImgUrl(dto.getImgUrl());
-            entity.setDate(dto.getDate());
+            copy(dto, entity);
 
             entity.getCategories().clear();
             for (CategoryDTO catDTO : dto.getCategories()) {
