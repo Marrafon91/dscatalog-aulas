@@ -1,0 +1,2 @@
+https://gist.github.com/acenelio/814230a96e0bf8f4fb0d96bd044e9d64
+LINK referencia para fazer tests com Spring Security
