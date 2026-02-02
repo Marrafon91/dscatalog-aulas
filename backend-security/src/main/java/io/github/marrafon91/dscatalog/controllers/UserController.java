@@ -29,14 +29,14 @@ public class UserController implements GenericController {
         return ResponseEntity.ok(dto);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable("id") Long id) {
         UserDTO dto = service.findById(id);
         return ResponseEntity.ok(dto);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable) {
         Page<UserDTO> result = service.findAllPaged(pageable);
