@@ -20,7 +20,7 @@ public class ProductController implements GenericController {
     private ProductService service;
 
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATOR')")
+
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable("id") Long id) {
         ProductDTO dto = service.findById(id);
@@ -33,7 +33,7 @@ public class ProductController implements GenericController {
         return ResponseEntity.ok(result);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATOR')")
     @PostMapping
     public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto) {
         ProductDTO result = service.insert(dto);
@@ -41,7 +41,7 @@ public class ProductController implements GenericController {
         return ResponseEntity.created(uri).body(result);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATOR')")
     @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> update(@PathVariable Long id,
                                               @Valid @RequestBody ProductDTO dto) {
@@ -49,9 +49,9 @@ public class ProductController implements GenericController {
         return ResponseEntity.ok(result);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATOR')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
