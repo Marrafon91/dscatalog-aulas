@@ -45,3 +45,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+security:
+  client-id: ${SECURITY_CLIENT_ID}
+  client-secret: ${SECURITY_CLIENT_SECRET}
+  jwt:
+    duration: ${SECURITY_JWT_DURATION}
+    cors:
+      origins: ${CORS_ORIGINS}

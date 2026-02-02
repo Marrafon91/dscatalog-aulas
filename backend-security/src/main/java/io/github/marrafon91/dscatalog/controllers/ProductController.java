@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -19,6 +20,7 @@ public class ProductController implements GenericController {
     private ProductService service;
 
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATOR')")
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable("id") Long id) {
         ProductDTO dto = service.findById(id);
@@ -31,6 +33,7 @@ public class ProductController implements GenericController {
         return ResponseEntity.ok(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto) {
         ProductDTO result = service.insert(dto);
@@ -38,12 +41,15 @@ public class ProductController implements GenericController {
         return ResponseEntity.created(uri).body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> update(@PathVariable Long id,
                                               @Valid @RequestBody ProductDTO dto) {
         ProductDTO result = service.update(id, dto);
         return ResponseEntity.ok(result);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable Long id) {
         service.delete(id);

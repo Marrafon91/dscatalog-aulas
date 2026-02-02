@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
@@ -19,5 +20,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 		""")
     List<UserDetailsProjection> searchUserAndRolesByEmail(String email);
 
-    User findByEmail(String email);
+     User findByEmail(String email);
 }
