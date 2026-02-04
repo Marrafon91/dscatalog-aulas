@@ -6,6 +6,8 @@ C:\Users\Guilherme\Documents\Estudos\DSCatalog\Desafio Empregados Auth\src\main\
 C:\Users\Guilherme\Documents\Estudos\DSCatalog\Desafio Empregados Auth\src\main\java\com\devsuperior\demo\dto\EmployeeDTO.java
 C:\Users\Guilherme\Documents\Estudos\DSCatalog\Desafio Empregados Auth\src\main\java\com\devsuperior\demo\entities\Department.java
 C:\Users\Guilherme\Documents\Estudos\DSCatalog\Desafio Empregados Auth\src\main\java\com\devsuperior\demo\entities\Employee.java
+C:\Users\Guilherme\Documents\Estudos\DSCatalog\Desafio Empregados Auth\src\main\java\com\devsuperior\demo\entities\Role.java
+C:\Users\Guilherme\Documents\Estudos\DSCatalog\Desafio Empregados Auth\src\main\java\com\devsuperior\demo\entities\User.java
 C:\Users\Guilherme\Documents\Estudos\DSCatalog\Desafio Empregados Auth\src\main\java\com\devsuperior\demo\repositories\DepartmentRepository.java
 C:\Users\Guilherme\Documents\Estudos\DSCatalog\Desafio Empregados Auth\src\main\java\com\devsuperior\demo\repositories\EmployeeRepository.java
 C:\Users\Guilherme\Documents\Estudos\DSCatalog\Desafio Empregados Auth\src\main\java\com\devsuperior\demo\services\DepartmentService.java
