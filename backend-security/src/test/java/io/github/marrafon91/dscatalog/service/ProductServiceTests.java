@@ -1,8 +1,9 @@
 package io.github.marrafon91.dscatalog.service;
 
 import io.github.marrafon91.dscatalog.dto.ProductDTO;
+import io.github.marrafon91.dscatalog.entities.Category;
 import io.github.marrafon91.dscatalog.entities.Product;
-import io.github.marrafon91.dscatalog.mappers.ProductMapper;
+import io.github.marrafon91.dscatalog.repositories.CategoryRepository;
 import io.github.marrafon91.dscatalog.repositories.ProductRepository;
 import io.github.marrafon91.dscatalog.services.ProductService;
 import io.github.marrafon91.dscatalog.services.exceptions.DatabaseException;
@@ -38,7 +39,7 @@ public class ProductServiceTests {
     private ProductRepository repository;
 
     @Mock
-    private ProductMapper mapper;
+    CategoryRepository categoryRepository;
 
     private long existingId;
     private long nonExistingId;
@@ -83,12 +84,16 @@ public class ProductServiceTests {
 
     @Test
     void updateShouldReturnProductDTOWhenIdExists() {
+
         Product product = Factory.createProduct();
         product.setId(existingId);
 
         ProductDTO dto = new ProductDTO(product);
 
-        when(mapper.toDTO(product)).thenReturn(dto);
+        when(repository.getReferenceById(existingId)).thenReturn(product);
+        when(repository.save(any(Product.class))).thenReturn(product);
+        when(categoryRepository.getReferenceById(anyLong()))
+                .thenReturn(new Category());
 
         ProductDTO result = service.update(existingId, dto);
 
@@ -97,9 +102,9 @@ public class ProductServiceTests {
 
         verify(repository, times(1)).getReferenceById(existingId);
         verify(repository, times(1)).save(any(Product.class));
-        verify(mapper, times(1)).updateEntityFromDTO(dto, product);
-        verify(mapper, times(1)).toDTO(product);
+        verify(categoryRepository, atLeastOnce()).getReferenceById(anyLong());
     }
+
 
     @Test
     void findByIdShouldReturnProductDTOWhenIdExists() {
@@ -122,12 +127,23 @@ public class ProductServiceTests {
     void findAllPagedShouldReturnPage() {
 
         Pageable pageable = PageRequest.of(0, 10);
+
+        Page<Product> page = new PageImpl<>(
+                List.of(Factory.createProduct())
+        );
+
+        when(repository.findAllWithCategories(pageable))
+                .thenReturn(page);
+
         Page<ProductDTO> result = service.findAllPaged(pageable);
 
         assertNotNull(result);
+        assertFalse(result.isEmpty());
 
-        verify(repository, times(1)).findAll(pageable);
+        verify(repository, times(1))
+                .findAllWithCategories(pageable);
     }
+
 
     @Test
     void deleteShouldThrowDatabaseExceptionWhenDependentId() {

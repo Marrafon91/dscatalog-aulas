@@ -17,7 +17,7 @@ import static org.springframework.data.domain.Sort.by;
 
 @SpringBootTest
 @Transactional
-public class ProductServiceIntegrationsTest {
+public class ProductServiceIT {
 
     @Autowired
     private ProductService service;

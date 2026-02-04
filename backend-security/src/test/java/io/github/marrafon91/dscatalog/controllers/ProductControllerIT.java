@@ -3,6 +3,7 @@ package io.github.marrafon91.dscatalog.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.marrafon91.dscatalog.dto.ProductDTO;
 import io.github.marrafon91.dscatalog.tests.Factory;
+import io.github.marrafon91.dscatalog.tests.TokenUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class ProductControllerIntegrationsTest {
+public class ProductControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -29,21 +30,30 @@ public class ProductControllerIntegrationsTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private long existingId;
-    private long nonExistingId;
-    private long countTotalProducts;
-    private ProductDTO productDTO;
+    @Autowired
+    private TokenUtil tokenUtil;
+
+    private Long existingId;
+    private Long nonExistingId;
+    private Long countTotalProducts;
+
+    private String username, password, bearerToken;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         existingId = 1L;
         nonExistingId = 1000L;
         countTotalProducts = 25L;
-        productDTO = Factory.createProductDTO();
+
+        username = "maria@gmail.com";
+        password = "123456";
+
+        bearerToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
     }
 
     @Test
-    void findAllShouldReturnSortedPageWhenSortByName() throws Exception {
+    public void findAllShouldReturnSortedPageWhenSortByName() throws Exception {
+
         ResultActions result =
                 mockMvc.perform(get("/products?page=0&size=12&sort=name,asc")
                         .accept(MediaType.APPLICATION_JSON));
@@ -56,9 +66,11 @@ public class ProductControllerIntegrationsTest {
         result.andExpect(jsonPath("$.content[2].name").value("PC Gamer Alfa"));
     }
 
-    @Test
-    void updateShouldReturnProductDTOWhenIdExists() throws Exception {
 
+    @Test
+    public void updateShouldReturnProductDTOWhenIdExists() throws Exception {
+
+        ProductDTO productDTO = Factory.createProductDTO();
         String jsonBody = objectMapper.writeValueAsString(productDTO);
 
         String expectedName = productDTO.getName();
@@ -66,6 +78,7 @@ public class ProductControllerIntegrationsTest {
 
         ResultActions result =
                 mockMvc.perform(put("/products/{id}", existingId)
+                        .header("Authorization", "Bearer " + bearerToken)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
@@ -77,12 +90,14 @@ public class ProductControllerIntegrationsTest {
     }
 
     @Test
-    void updateShouldReturnNotFoundWhenIdDoesNotExists() throws Exception {
+    public void updateShouldReturnNotFoundWhenIdDoesNotExist() throws Exception {
 
+        ProductDTO productDTO = Factory.createProductDTO();
         String jsonBody = objectMapper.writeValueAsString(productDTO);
 
         ResultActions result =
                 mockMvc.perform(put("/products/{id}", nonExistingId)
+                        .header("Authorization", "Bearer " + bearerToken)
                         .content(jsonBody)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));

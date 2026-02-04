@@ -32,7 +32,7 @@ import java.util.Arrays;
 @EnableMethodSecurity
 public class ResourceServerConfig {
 
-    @Value("${cors.origins}")
+    @Value("${security.jwt.cors.origins}")
     private String corsOrigins;
 
     @Bean
