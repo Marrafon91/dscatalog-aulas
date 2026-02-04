@@ -65,7 +65,7 @@ public class AuthorizationServerConfig {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @Order(2)
+    @Order(1)
     @Bean
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
 
@@ -73,12 +73,11 @@ public class AuthorizationServerConfig {
                 new OAuth2AuthorizationServerConfigurer();
 
         http
-                // Aplica apenas aos endpoints do Authorization Server
                 .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
 
-                // Authorization Server
                 .with(authorizationServerConfigurer, authorizationServer ->
                         authorizationServer
+                                .clientAuthentication(Customizer.withDefaults()) // 🔥 OBRIGATÓRIO
                                 .tokenEndpoint(tokenEndpoint -> tokenEndpoint
                                         .accessTokenRequestConverter(
                                                 new CustomPasswordAuthenticationConverter()
@@ -94,18 +93,22 @@ public class AuthorizationServerConfig {
                                 )
                 )
 
-                // Exige autenticação para todos os endpoints do AS
                 .authorizeHttpRequests(authorize ->
                         authorize.anyRequest().authenticated()
                 )
 
-                // Resource Server para validar JWT emitido
+                // 🔥 CSRF deve ser ignorado nos endpoints OAuth2
+                .csrf(csrf -> csrf.ignoringRequestMatchers(
+                        authorizationServerConfigurer.getEndpointsMatcher()
+                ))
+
                 .oauth2ResourceServer(resourceServer ->
                         resourceServer.jwt(Customizer.withDefaults())
                 );
 
         return http.build();
     }
+
 
 
     @Bean
