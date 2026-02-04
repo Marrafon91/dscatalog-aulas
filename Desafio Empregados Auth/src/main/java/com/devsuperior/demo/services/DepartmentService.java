@@ -18,6 +18,6 @@ public class DepartmentService {
 	
 	public List<DepartmentDTO> findAll() {
 		List<Department> list = repository.findAll(Sort.by("name"));
-		return list.stream().map(x -> new DepartmentDTO(x)).toList();
+		return list.stream().map(DepartmentDTO::new).toList();
 	}
 }
