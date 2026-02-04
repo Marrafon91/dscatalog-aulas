@@ -1,4 +1,4 @@
-package com.devsuperior.demo.dto.errors;
+package com.devsuperior.demo.controllers.exceptionHandlers.errors;
 
 import java.time.Instant;
 import java.util.ArrayList;
