@@ -1,0 +1,12 @@
+com\devsuperior\demo\DemoApplication.class
+com\devsuperior\demo\dto\EmployeeDTO.class
+com\devsuperior\demo\services\DepartmentService.class
+com\devsuperior\demo\entities\Department.class
+com\devsuperior\demo\config\SecurityConfig.class
+com\devsuperior\demo\services\EmployeeService.class
+com\devsuperior\demo\repositories\EmployeeRepository.class
+com\devsuperior\demo\repositories\DepartmentRepository.class
+com\devsuperior\demo\entities\Employee.class
+com\devsuperior\demo\controllers\EmployeeController.class
+com\devsuperior\demo\controllers\DepartmentController.class
+com\devsuperior\demo\dto\DepartmentDTO.class
