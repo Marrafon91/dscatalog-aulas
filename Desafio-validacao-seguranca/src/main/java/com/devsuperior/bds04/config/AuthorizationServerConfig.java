@@ -1,13 +1,12 @@
-package com.devsuperior.demo.config;
+package com.devsuperior.bds04.config;
 
-import com.devsuperior.demo.config.customgrant.CustomPasswordAuthenticationConverter;
-import com.devsuperior.demo.config.customgrant.CustomPasswordAuthenticationProvider;
-import com.devsuperior.demo.config.customgrant.CustomUserAuthorities;
+import com.devsuperior.bds04.config.customgrant.CustomPasswordAuthenticationConverter;
+import com.devsuperior.bds04.config.customgrant.CustomPasswordAuthenticationProvider;
+import com.devsuperior.bds04.config.customgrant.CustomUserAuthorities;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

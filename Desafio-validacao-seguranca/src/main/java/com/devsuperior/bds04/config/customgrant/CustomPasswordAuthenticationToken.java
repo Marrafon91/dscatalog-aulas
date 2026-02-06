@@ -1,4 +1,4 @@
-package com.devsuperior.demo.config.customgrant;
+package com.devsuperior.bds04.config.customgrant;
 
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;

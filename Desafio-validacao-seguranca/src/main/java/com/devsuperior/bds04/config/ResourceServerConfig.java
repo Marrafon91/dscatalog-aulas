@@ -1,4 +1,4 @@
-package com.devsuperior.demo.config;
+package com.devsuperior.bds04.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
