@@ -29,7 +29,7 @@ public class CityService {
     }
 
     @Transactional
-    public CityDTO insert(@RequestBody CityDTO dto) {
+    public CityDTO insert(CityDTO dto) {
         City entity = new City();
         entity.setName(dto.getName());
         repository.save(entity);
