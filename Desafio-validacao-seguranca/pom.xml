@@ -12,8 +12,8 @@
 	<groupId>com.devsuperior</groupId>
 	<artifactId>bds04</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>bds04</name>
-	<description>Bootcamp Spring React DevSuperior</description>
+	<name>ValidacaoSeguranca</name>
+	<description>Desafio de validacao e seguranca</description>
 
 	<properties>
 		<java.version>21</java.version>
