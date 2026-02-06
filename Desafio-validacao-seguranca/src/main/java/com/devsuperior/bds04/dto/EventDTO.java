@@ -1,12 +1,11 @@
 package com.devsuperior.bds04.dto;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-
 import com.devsuperior.bds04.entities.Event;
 
-public class EventDTO implements Serializable {
-	private static final long serialVersionUID = 1L;
+import java.time.LocalDate;
+
+public class EventDTO {
+
 	
 	private Long id;
 	private String name;
