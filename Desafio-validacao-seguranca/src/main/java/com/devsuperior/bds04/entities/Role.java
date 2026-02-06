@@ -1,8 +1,6 @@
 package com.devsuperior.bds04.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -12,6 +10,8 @@ import java.util.Set;
 @Table(name = "tb_role")
 public class Role {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String authority;
 

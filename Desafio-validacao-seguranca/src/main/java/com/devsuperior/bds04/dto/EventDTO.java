@@ -1,6 +1,10 @@
 package com.devsuperior.bds04.dto;
 
 import com.devsuperior.bds04.entities.Event;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDate;
 
@@ -8,9 +12,19 @@ public class EventDTO {
 
 	
 	private Long id;
+
+	@NotBlank(message = "Campo requerido")
 	private String name;
+
+	@NotNull(message = "Campo requerido")
+	@Future(message = "A data do evento não pode ser passada")
 	private LocalDate date;
+
+	@NotBlank(message = "Campo requerido")
+	@URL(message = "URL inválida")
 	private String url;
+
+	@NotNull(message = "Campo requerido")
 	private Long cityId;
 	
 	public EventDTO() {

@@ -1,6 +1,9 @@
 package com.devsuperior.bds04.dto;
 
 import com.devsuperior.bds04.entities.User;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,11 +12,15 @@ public class UserDTO {
 
     private Long id;
 
+    @NotBlank(message = "Campo requerido")
+    @Size(min = 3, max = 80, message = "nome deve ter entre 3 a 80 caracteres")
     private String name;
 
+    @Email(message = "Favor entar com um email válido")
+    @NotBlank(message = "Campo requerido")
     private String email;
 
-    private Set<RoleDTO> roles = new HashSet<>();
+    private final Set<RoleDTO> roles = new HashSet<>();
 
     public UserDTO() {
     }
