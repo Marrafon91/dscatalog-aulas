@@ -63,7 +63,7 @@ public class AuthorizationServerConfig {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Order(1)
     @Bean
@@ -77,7 +77,7 @@ public class AuthorizationServerConfig {
 
                 .with(authorizationServerConfigurer, authorizationServer ->
                         authorizationServer
-                                .clientAuthentication(Customizer.withDefaults()) // 🔥 OBRIGATÓRIO
+                                .clientAuthentication(Customizer.withDefaults()) //  OBRIGATÓRIO
                                 .tokenEndpoint(tokenEndpoint -> tokenEndpoint
                                         .accessTokenRequestConverter(
                                                 new CustomPasswordAuthenticationConverter()
@@ -97,7 +97,7 @@ public class AuthorizationServerConfig {
                         authorize.anyRequest().authenticated()
                 )
 
-                // 🔥 CSRF deve ser ignorado nos endpoints OAuth2
+                // CSRF deve ser ignorado nos endpoints OAuth2
                 .csrf(csrf -> csrf.ignoringRequestMatchers(
                         authorizationServerConfigurer.getEndpointsMatcher()
                 ))
