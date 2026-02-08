@@ -1,7 +1,10 @@
 package com.devsuperior.dscatalog.services;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
+import com.devsuperior.dscatalog.projections.ProductProjection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -33,7 +36,7 @@ public class ProductService {
 	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAllPaged(Pageable pageable) {
 		Page<Product> list = repository.findAll(pageable);
-		return list.map(x -> new ProductDTO(x));
+		return list.map(ProductDTO::new);
 	}
 
 	@Transactional(readOnly = true)
@@ -90,5 +93,10 @@ public class ProductService {
 			Category category = categoryRepository.getReferenceById(catDto.getId());
 			entity.getCategories().add(category);			
 		}
-	}	
+	}
+
+	@Transactional(readOnly = true)
+	public Page<ProductProjection> testQuery(Pageable pageable) {
+		return repository.searchProducts(List.of(1L, 3L),"", pageable);
+	}
 }
