@@ -6,11 +6,13 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import com.devsuperior.dscatalog.projections.ProductProjection;
+import com.devsuperior.dscatalog.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -104,10 +106,11 @@ public class ProductService {
 		if (!"0".equals(categoryId)) {
 			categoryIds = Stream.of(categoryId.split(",")).map(Long::parseLong).toList();
 		}
-		Page<ProductProjection> page = repository.searchProducts(categoryIds, name, pageable);
+		Page<ProductProjection> page = repository.searchProducts(categoryIds, name.trim(), pageable);
 		List<Long> productIds = page.map(ProductProjection::getId).toList();
 
 		List<Product> entities = repository.searchProductsWithCategories(productIds);
+		entities = Utils.replace(page.getContent(), entities);
 		List<ProductDTO> dtos = entities.stream().map(p -> new ProductDTO(p, p.getCategories())).toList();
 
         return new PageImpl<>(dtos, page.getPageable(), page.getTotalElements());
