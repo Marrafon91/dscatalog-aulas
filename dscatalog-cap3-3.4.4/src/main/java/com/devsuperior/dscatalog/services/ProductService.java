@@ -3,6 +3,7 @@ package com.devsuperior.dscatalog.services;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import com.devsuperior.dscatalog.projections.ProductProjection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +97,12 @@ public class ProductService {
 	}
 
 	@Transactional(readOnly = true)
-	public Page<ProductProjection> testQuery(Pageable pageable) {
-		return repository.searchProducts(List.of(1L, 3L),"", pageable);
+	public Page<ProductProjection> findAllPagedTest(String name,String categoryId, Pageable pageable) {
+
+		List<Long> categoryIds = null;
+		if (!"0".equals(categoryId)) {
+			categoryIds = Stream.of(categoryId.split(",")).map(Long::parseLong).toList();
+		}
+		return repository.searchProducts(categoryIds, name, pageable);
 	}
 }
