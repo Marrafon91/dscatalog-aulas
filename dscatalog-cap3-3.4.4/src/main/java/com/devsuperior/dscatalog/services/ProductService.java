@@ -103,7 +103,7 @@ public class ProductService {
     @Transactional(readOnly = true)
 	public Page<ProductDTO> findAllPagedTest(String name,String categoryId, Pageable pageable) {
 
-		List<Long> categoryIds = null;
+		List<Long> categoryIds = List.of();
 		if (!"0".equals(categoryId)) {
 			categoryIds = Stream.of(categoryId.split(",")).map(Long::parseLong).toList();
 		}
