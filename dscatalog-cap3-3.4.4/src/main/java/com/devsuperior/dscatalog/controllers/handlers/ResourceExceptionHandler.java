@@ -1,7 +1,10 @@
-package com.devsuperior.dscatalog.controllers.exceptions;
+package com.devsuperior.dscatalog.controllers.handlers;
 
 import java.time.Instant;
 
+import com.devsuperior.dscatalog.controllers.exceptions.StandardError;
+import com.devsuperior.dscatalog.controllers.exceptions.ValidationError;
+import com.devsuperior.dscatalog.services.exceptions.EmailException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -56,5 +59,6 @@ public class ResourceExceptionHandler {
 		}
 		
 		return ResponseEntity.status(status).body(err);
-	}	
+	}
+
 }
