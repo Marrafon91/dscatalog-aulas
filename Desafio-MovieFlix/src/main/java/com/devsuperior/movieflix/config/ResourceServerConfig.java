@@ -27,7 +27,7 @@ import org.springframework.web.filter.CorsFilter;
 @EnableMethodSecurity
 public class ResourceServerConfig {
 
-	@Value("${cors.origins}")
+	@Value("${security.jwt.cors.origins}")
 	private String corsOrigins;
 
 	@Bean
