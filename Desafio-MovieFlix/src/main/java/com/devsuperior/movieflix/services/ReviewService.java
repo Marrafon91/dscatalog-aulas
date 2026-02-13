@@ -17,17 +17,8 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public List<ReviewDTO> findByMovieId(Long movieId) {
-
+        
         List<ReviewProjection> list = repository.searchByMovieId(movieId);
-
-        return list.stream()
-                .map(r -> new ReviewDTO(
-                        r.getId(),
-                        r.getText(),
-                        r.getMovieId(),
-                        r.getUserId(),
-                        r.getUserName(),
-                        r.getUserEmail()
-                )).toList();
+        return list.stream().map(ReviewDTO::new).toList();
     }
 }

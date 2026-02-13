@@ -22,7 +22,7 @@ public class MovieController {
     private MovieService service;
 
     @Autowired
-    ReviewService reviewService;
+    private ReviewService reviewService;
 
     @PreAuthorize("hasAnyRole('ROLE_VISITOR', 'ROLE_MEMBER')")
     @GetMapping
