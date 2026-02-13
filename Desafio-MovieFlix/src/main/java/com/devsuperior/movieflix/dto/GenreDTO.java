@@ -1,23 +1,15 @@
 package com.devsuperior.movieflix.dto;
 
-public class GenreDTO {
+import com.devsuperior.movieflix.entities.Genre;
+import com.devsuperior.movieflix.projections.GenreProjection;
 
-    private Long id;
-    private String name;
+public record GenreDTO(Long id, String name) {
 
-    public Long getId() {
-        return id;
+    public GenreDTO(Genre entity) {
+        this(entity.getId(), entity.getName());
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public GenreDTO(GenreProjection projection) {
+        this(projection.getId(), projection.getName());
     }
 }
