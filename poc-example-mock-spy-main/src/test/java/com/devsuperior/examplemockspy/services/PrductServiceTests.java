@@ -31,7 +31,7 @@ public class PrductServiceTests {
     private Long existingId, nonExisitinId;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
 
         existingId = 1L;
         nonExisitinId = 2L;
@@ -144,7 +144,6 @@ public class PrductServiceTests {
         Assertions.assertThrows(InvalidDataException.class,
                 () -> serviceSpy.update(nonExisitinId, productDTO));
     }
-
 }
 
 
