@@ -56,7 +56,7 @@ public class PrductServiceTests {
     }
 
     @Test
-    void insertShouldReturnInvalidDataExceptionWhenProductNameisBlank() {
+    void insertShouldReturnInvalidDataExceptionWhenProductNameIsBlank() {
         productDTO.setName("");
 
         ProductService serviceSpy = Mockito.spy(service);
@@ -67,7 +67,7 @@ public class PrductServiceTests {
     }
 
     @Test
-    void insertShouldReturnInvalidDataExceptionWhenProductPriceisNegativeOrZero() {
+    void insertShouldReturnInvalidDataExceptionWhenProductPriceIsNegativeOrZero() {
         productDTO.setPrice(-5.0);
 
         ProductService serviceSpy = Mockito.spy(service);
@@ -76,4 +76,40 @@ public class PrductServiceTests {
         Assertions.assertThrows(InvalidDataException.class,
                 () -> serviceSpy.insert(productDTO));
     }
+
+    @Test
+    void updateShouldReturnProductDTOWhenIdExistsAndValidData() {
+
+        ProductService serviceSpy = Mockito.spy(service);
+        Mockito.doNothing().when(serviceSpy).validateData(productDTO);
+
+        ProductDTO result = serviceSpy.update(existingId, productDTO);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(result.getId(), existingId);
+    }
+
+    @Test
+    void updateShouldReturnInvalidDataExceptionWhenIdExistsAndProductNameIsBlank() {
+        productDTO.setName("");
+
+        ProductService serviceSpy = Mockito.spy(service);
+        Mockito.doThrow(InvalidDataException.class).when(serviceSpy).validateData(Mockito.any());
+
+        Assertions.assertThrows(InvalidDataException.class,
+                () -> serviceSpy.update(existingId, productDTO));
+    }
+
+    @Test
+    void updateShouldReturnInvalidDataExceptionWhenIdExistsAndProductPriceIsNegativeOrZero() {
+        productDTO.setPrice(-10.0);
+
+        ProductService serviceSpy = Mockito.spy(service);
+        Mockito.doThrow(InvalidDataException.class).when(serviceSpy).validateData(Mockito.any());
+
+        Assertions.assertThrows(InvalidDataException.class,
+                () -> serviceSpy.update(existingId, productDTO));
+    }
 }
+
+
