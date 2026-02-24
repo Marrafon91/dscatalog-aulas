@@ -3,6 +3,7 @@ package com.devsuperior.examplemockspy.services;
 import com.devsuperior.examplemockspy.dto.ProductDTO;
 import com.devsuperior.examplemockspy.entities.Product;
 import com.devsuperior.examplemockspy.repositories.ProductRepository;
+import com.devsuperior.examplemockspy.services.exceptions.InvalidDataException;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +35,7 @@ public class PrductServiceTests {
         existingId = 1L;
         nonExisitinId = 2L;
 
-        product = new Product(1L,"PlayStation", 2000.00);
+        product = new Product(1L, "PlayStation", 2000.00);
         productDTO = new ProductDTO(product);
 
         Mockito.when(repository.save(any())).thenReturn(product);
@@ -51,7 +52,28 @@ public class PrductServiceTests {
         ProductDTO result = serviceSpy.insert(productDTO);
 
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(result.getName(),"PlayStation");
+        Assertions.assertEquals("PlayStation", result.getName());
     }
 
+    @Test
+    void insertShouldReturnInvalidDataExceptionWhenProductNameisBlank() {
+        productDTO.setName("");
+
+        ProductService serviceSpy = Mockito.spy(service);
+        Mockito.doThrow(InvalidDataException.class).when(serviceSpy).validateData(Mockito.any());
+
+        Assertions.assertThrows(InvalidDataException.class,
+                () -> serviceSpy.insert(productDTO));
+    }
+
+    @Test
+    void insertShouldReturnInvalidDataExceptionWhenProductPriceisNegativeOrZero() {
+        productDTO.setPrice(-5.0);
+
+        ProductService serviceSpy = Mockito.spy(service);
+        Mockito.doThrow(InvalidDataException.class).when(serviceSpy).validateData(Mockito.any());
+
+        Assertions.assertThrows(InvalidDataException.class,
+                () -> serviceSpy.insert(productDTO));
+    }
 }
