@@ -53,6 +53,5 @@ public class ProductService {
 		if (dto.getPrice() == null || dto.getPrice() <= 0) {
 			throw new InvalidDataException("Campo preco inválido");
 		}
-		return;
 	}
 }

@@ -4,6 +4,7 @@ import com.devsuperior.examplemockspy.dto.ProductDTO;
 import com.devsuperior.examplemockspy.entities.Product;
 import com.devsuperior.examplemockspy.repositories.ProductRepository;
 import com.devsuperior.examplemockspy.services.exceptions.InvalidDataException;
+import com.devsuperior.examplemockspy.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -110,6 +111,40 @@ public class PrductServiceTests {
         Assertions.assertThrows(InvalidDataException.class,
                 () -> serviceSpy.update(existingId, productDTO));
     }
+
+    @Test
+    void updateShouldReturnResourceNotFoundExceptionWhenIdDoesNotExistsAndValidData() {
+
+        ProductService serviceSpy = Mockito.spy(service);
+        Mockito.doNothing().when(serviceSpy).validateData(productDTO);
+
+        Assertions.assertThrows(ResourceNotFoundException.class,
+                () -> serviceSpy.update(nonExisitinId, productDTO));
+
+    }
+
+    @Test
+    void updateShouldReturnInvalidDataExceptionWhenIdDoesNotExistsAndProductNameIsBlank() {
+        productDTO.setName("");
+
+        ProductService serviceSpy = Mockito.spy(service);
+        Mockito.doThrow(InvalidDataException.class).when(serviceSpy).validateData(Mockito.any());
+
+        Assertions.assertThrows(InvalidDataException.class,
+                () -> serviceSpy.update(nonExisitinId, productDTO));
+    }
+
+    @Test
+    void updateShouldReturnInvalidDataExceptionWhenIdDoesNotExistsAndProductPriceIsNegativeOrZero() {
+        productDTO.setPrice(-10.0);
+
+        ProductService serviceSpy = Mockito.spy(service);
+        Mockito.doThrow(InvalidDataException.class).when(serviceSpy).validateData(Mockito.any());
+
+        Assertions.assertThrows(InvalidDataException.class,
+                () -> serviceSpy.update(nonExisitinId, productDTO));
+    }
+
 }
 
 
